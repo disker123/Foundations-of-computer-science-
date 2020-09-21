@@ -117,16 +117,20 @@ for n in range(n):#show all elements to test
 '''
 
 
-dfa = {0:{'0':0, '1':1},
+'''dfa = {0:{'0':0, '1':1},
        1:{'0':2, '1':0},
        2:{'0':1, '1':2}}
+'''#first test DFA  
 
-def accepts(transitions,initial,accepting,s):
-    state = initial
+dfa = {0:{'0':1, '1':1},
+       1:{'0':1, '1':1}}    
+
+def accepts(DFA, start, accepting, s):
+    state = start
     for c in s:
-        state = transitions[state][c]
+        state = DFA[state][c]
     return state in accepting
 
 #print(accepts(dfa, 0, {1}, "01100110001"))
 	
-print(accepts(dfa, 0, {0}, ""))#this DFA accepts the empty string
+print(accepts(dfa, 1, {0}, ''))#this DFA accepts the empty string
