@@ -123,7 +123,7 @@ for n in range(n):#show all elements to test
 '''#first test DFA  
 
 dfa = {0:{'0':1, '1':1},
-       1:{'0':1, '1':1}}    
+       1:{'0':1, '1':1}}  
 
 def accepts(DFA, start, accepting, s):
     state = start
@@ -133,4 +133,4 @@ def accepts(DFA, start, accepting, s):
 
 #print(accepts(dfa, 0, {1}, "01100110001"))
 	
-print(accepts(dfa, 1, {0}, ''))#this DFA accepts the empty string
+print(accepts(dfa, 0, {0}, ''))#this DFA accepts the nostring
