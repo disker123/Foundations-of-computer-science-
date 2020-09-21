@@ -133,4 +133,4 @@ def accepts(DFA, start, accepting, s):
 
 #print(accepts(dfa, 0, {1}, "01100110001"))
 	
-print(accepts(dfa, 0, {0}, ''))#this DFA accepts the nostring
+print(accepts(dfa, 1, {0}, ''))#this DFA accepts the nostring
