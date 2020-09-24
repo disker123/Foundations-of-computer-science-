@@ -118,8 +118,7 @@ for n in range(n):#show all elements to test
 
 
 dfa = {0:{'0':0, '1':1},
-       1:{'0':2, '1':0},
-       2:{'0':1, '1':2}}
+       1:{'0':1, '1':0}}
 
 def DFA_test(dfa, start, accepting, x):
     state = start
