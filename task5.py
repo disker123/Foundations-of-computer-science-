@@ -132,6 +132,5 @@ def DFA_test(dfa, start, accepting, x):
     return state in accepting
 
 
-#print(accepts(dfa, 0, {1}, "01100110001"))
 	
 print(DFA_test(dfa, 1, {0}, ''))#this DFA accepts the nostring
