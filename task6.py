@@ -125,14 +125,13 @@ for n in range(n):#show all elements to test
 dfa = {0:{'0':1, '1':1},
        1:{'0':1, '1':1}}  
 
-def accepts(DFA, start, accepting, s):
+def DFA_test(dfa, start, accepting, x):
     state = start
-    for c in s:
-        state = DFA[state][c]
+    for c in x:
+        state = dfa[state][c]
     return state in accepting
 
-#print(accepts(dfa, 0, {1}, "01100110001"))
 	
-print(accepts(dfa, 0, {0}, ''))#this DFA accepts the empty string
-print(accepts(dfa, 0, {0}, '1'))
-print(accepts(dfa, 0, {0}, '0'))
+print(DFA_test(dfa, 0, {0}, ''))#this DFA accepts the empty string
+print(DFA_test(dfa, 0, {0}, '1'))
+print(DFA_test(dfa, 0, {0}, '0'))
