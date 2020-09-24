@@ -121,11 +121,12 @@ dfa = {0:{'0':0, '1':1},
        1:{'0':2, '1':0},
        2:{'0':1, '1':2}}
 
-def DFA_test(dfa,start,accepting,str):
-    state = initial
-    for c in s:
-        state = transitions[state][c]
+def DFA_test(dfa, start, accepting, x):
+    state = start
+    for c in x:
+        state = dfa[state][c]
     return state in accepting
+
 
 print(DFA_test(dfa, 0, {1}, "01100110001"))
 	
