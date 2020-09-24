@@ -127,17 +127,18 @@ for n in range(n):#show all elements to test
 dfa = {0:{'0':1, '1':1},
        1:{'0':1, '1':1}}  
 '''
-def accepts(dfa, start, accepting, st):
+def DFA_test(dfa, start, accepting, x):
     state = start
-    for i in st:
-        state = dfa[state][i]
+    for c in x:
+        state = dfa[state][c]
     return state in accepting
+
 '''
-#print(accepts(dfa, 0, {1}, "01100110001"))
+#print(DFA_test(dfa, 0, {1}, "01100110001"))
 	
-print(accepts(dfa, 0, {0}, ''))#this DFA accepts the empty string
-print(accepts(dfa, 0, {0}, '1'))
-print(accepts(dfa, 0, {0}, '0'))
+print(DFA_test(dfa, 0, {0}, ''))#this DFA accepts the empty string
+print(DFA_test(dfa, 0, {0}, '1'))
+print(DFA_test(dfa, 0, {0}, '0'))
 '''
 
 '''
@@ -148,10 +149,10 @@ dfa = {0:{x:1},
        1:{x:2},
        2:{x:2}}
 
-print(accepts(dfa, 0, {1}, x))#accepts a string of 1 char
+print(DFA_test(dfa, 0, {1}, x))#accepts a string of 1 char
 x+=x
 print(x)
-print(accepts(dfa, 0, {1}, x))#fails on 'aa'
+print(DFA_test(dfa, 0, {1}, x))#fails on 'aa'
 '''
 
 dfa_even = {0:{'0':1, '1':1},
@@ -166,7 +167,7 @@ dfa_odd_binary_number = {0:{'1':0, '0':1},
 dfa_name = {0:{'g':1, 'r':0, 'e':0},
        1:{'r':2, 'e':0, 'g':0},
        2:{'e':3, 'g':0, 'r':0},
-       3:{'g':3, 'r':0, 'e':0},
+       3:{'g':4, 'r':0, 'e':0},
        4:{'g':0, 'r':0, 'e':0}}
        
 dfa_abst = {0:{'0':0, '1':1},
@@ -194,13 +195,58 @@ dfa_001 = {0:{'1':0, '0':1},
 
 
 
-print(accepts(dfa_even, 0, {0}, "00000000"))#even lengthed dfa  #1
-print(accepts(dfa_even_binary_number, 0, {0}, "11010"))#even number dfa #2
-print(accepts(dfa_odd_binary_number, 1, {0}, "110101"))#odd number dfa #3
-print(accepts(dfa_name, 0, {1}, "greg"))#my name #4
-print(accepts(dfa_abst, 0, {1}, "0010001"))#abstract dfa from sec 1.4 #5
-print(accepts(dfa_element_to_state, 0, {1}, "0001101"))#goes to the state of the element 0->0 1->1 #6
-print(accepts(dfa_element_to_state, 0, {1}, "0001101"))#three states #7
-print(accepts(dfa_traffic_light, 0, {0}, "00001110000"))#stays green when no cars are waiting then turns yellow for a tick then stays red while there are cars waiting and turns green when there are none #8
-print(accepts(dfa_thermostat, 0, {1}, "0011001"))#thermostat on when hot (1) and off when not (0) goal is to be on #9
-print(accepts(dfa_001, 0, {3}, "0110010101"))#accepts if there is 001 in the string #10
+print(DFA_test(dfa_even, 0, {0}, "00000000"))#even lengthed dfa  #1
+print(DFA_test(dfa_even, 0, {0}, "11111111"))
+print(DFA_test(dfa_even, 0, {0}, "0000000"))
+print(DFA_test(dfa_even, 0, {0}, "1111111"))
+print(DFA_test(dfa_even, 0, {0}, "000000001"))
+print(DFA_test(dfa_even, 0, {0}, "111111110"))
+print("\n")
+print(DFA_test(dfa_even_binary_number, 0, {0}, "11010"))#even number dfa #2
+print(DFA_test(dfa_even_binary_number, 0, {0}, "11011"))
+print(DFA_test(dfa_even_binary_number, 0, {0}, "110101"))
+print(DFA_test(dfa_even_binary_number, 0, {0}, "011010"))
+print(DFA_test(dfa_even_binary_number, 0, {0}, "11010"))
+print(DFA_test(dfa_even_binary_number, 0, {0}, "11010"))
+print("\n")
+print(DFA_test(dfa_odd_binary_number, 1, {0}, "110101"))#odd number dfa #3
+print(DFA_test(dfa_odd_binary_number, 1, {0}, "110100"))#odd number dfa #3
+print(DFA_test(dfa_odd_binary_number, 1, {0}, "1101010"))#odd number dfa #3
+print(DFA_test(dfa_odd_binary_number, 1, {0}, "1101000010101"))#odd number dfa #3
+print(DFA_test(dfa_odd_binary_number, 1, {0}, "001110101"))#odd number dfa #3
+print(DFA_test(dfa_odd_binary_number, 1, {0}, "100011101010"))#odd number dfa #3
+print("\n")
+print(DFA_test(dfa_name, 0, {4}, "greg"))#my name #4
+print(DFA_test(dfa_name, 0, {4}, "gregg"))
+print(DFA_test(dfa_name, 0, {4}, "gre"))
+print(DFA_test(dfa_name, 0, {4}, "grege"))
+print(DFA_test(dfa_name, 0, {4}, "rgreg"))
+print(DFA_test(dfa_name, 0, {4}, "ggegegreg"))
+print("\n")
+print(DFA_test(dfa_abst, 0, {1}, "0010001"))#abstract dfa from sec 1.4 #5
+print(DFA_test(dfa_abst, 0, {1}, "0010000"))
+print(DFA_test(dfa_abst, 0, {1}, "0011000010"))
+print(DFA_test(dfa_abst, 0, {1}, "0000000"))
+print(DFA_test(dfa_abst, 0, {1}, "001000111111111111110"))
+print(DFA_test(dfa_abst, 0, {1}, "10101010101010101"))#0-1-2-1-2-1-2-1...
+print("\n")
+print(DFA_test(dfa_element_to_state, 0, {0}, "000000"))#goes to the state of the element 0->0 1->1 #6
+print(DFA_test(dfa_element_to_state, 0, {0}, "11111"))
+print(DFA_test(dfa_element_to_state, 0, {1}, "00000"))
+print(DFA_test(dfa_element_to_state, 0, {1}, "11111"))
+print(DFA_test(dfa_element_to_state, 0, {1}, "0001101011101"))
+print(DFA_test(dfa_element_to_state, 0, {1}, "00011010111010"))
+print("\n")
+print(DFA_test(dfa_traffic_light, 0, {0}, "000011100001110"))#stays green when no cars are waiting then turns yellow for a tick then stays red while there are cars waiting and turns green when there are none #8
+print(DFA_test(dfa_traffic_light, 0, {0}, "1100000"))
+print(DFA_test(dfa_traffic_light, 0, {0}, "000011"))
+print(DFA_test(dfa_traffic_light, 0, {0}, "11111"))#rush hour
+print(DFA_test(dfa_traffic_light, 0, {0}, "000000000"))#2 A.M.
+print(DFA_test(dfa_traffic_light, 0, {0}, "011001010001"))
+print("\n")
+print(DFA_test(dfa_001, 0, {3}, "001"))#accepts if there is 001 in the string #10
+print(DFA_test(dfa_001, 0, {3}, "0000000"))
+print(DFA_test(dfa_001, 0, {3}, "011011100"))
+print(DFA_test(dfa_001, 0, {3}, "0110010101"))
+print(DFA_test(dfa_001, 0, {3}, "111111111111111001"))
+print(DFA_test(dfa_001, 0, {3}, "0000000000000001"))
