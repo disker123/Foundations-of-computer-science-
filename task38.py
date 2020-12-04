@@ -1,4 +1,3 @@
-
 #task 38
 
 nfa = {1:{'0':[1,2], '1':[1]},
@@ -44,6 +43,12 @@ def convert_to_DFA(nfa):
 	#print(new_states)
 
 	for states in new_states:
+		'''if(states == ''):
+			print("flag")
+			dfa['']['0'] = ''
+			dfa['']['1'] = ''
+			continue'''
+
 		string1 = ""
 		for char in states:
 			c = int(char)
@@ -84,11 +89,13 @@ def convert_to_DFA(nfa):
 				dfa_as = states
 
 	#print(dfa)
-	new_dfa = DFA(5, nfa.alph, dfa, nfa.start_state, dfa_as)
+	#print(new_states)
+	new_states.append(nfa.start_state)
+	new_dfa = DFA(new_states, nfa.alph, dfa, str(nfa.start_state), dfa_as)
 	return new_dfa
 
 flag = convert_to_DFA(test_nfa)
-print(flag.dict)
+#print(flag.dict)
 '''
 {'1': {'0': '12', '1': '1'}, 
 '12': {'0': '12', '1': '13'}, 
