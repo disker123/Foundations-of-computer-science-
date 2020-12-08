@@ -1,0 +1,41 @@
+#task 44 write some strings for those example FEs
+test = regex(r"z{3,}")
+x = re_print(test, "zzz")
+test = regex(r"z{3,}")
+x = re_print(test, "zzzzzzzzzz")
+
+test = regex(r"hello world")
+x = re_print(test, "hello world")
+test = regex(r"hello world")
+x = re_print(test, "goodbye world")
+
+test = regex(r"pick [234]")
+x = re_print(test, "pick 2")
+test = regex(r"pick [234]")
+x = re_print(test, "pick 3")
+test = regex(r"pick [234]")
+x = re_print(test, "pick 4")
+
+test = regex(r"\d")
+x = re_print(test, "0")
+test = regex(r"\d")
+x = re_print(test, "2")
+test = regex(r"\d")
+x = re_print(test, "7")
+test = regex(r"\d")
+x = re_print(test, "9")
+
+test = regex(r"ni+ce")
+x = re_print(test, "nice")
+test = regex(r"ni+ce")
+x = re_print(test, "niiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiice")
+
+
+test = regex(r"[^asdfghjkl;']")
+x = re_print(test, "'")
+test = regex(r"[^asdfghjkl;']")
+x = re_print(test, "t")
+test = regex(r"[^asdfghjkl;']")
+x = re_print(test, "7")
+test = regex(r"[^asdfghjkl;']")
+x = re_print(test, "f")
