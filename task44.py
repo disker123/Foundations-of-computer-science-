@@ -1,41 +1,149 @@
-#task 44 write some strings for those example FEs
-test = regex(r"z{3,}")
-x = re_print(test, "zzz")
-test = regex(r"z{3,}")
-x = re_print(test, "zzzzzzzzzz")
+def union(nfa_1, nfa_2):
+	union_dict = {}#the union dictionary 
+	union_dict[0] = {'':[1, 2]}
+	union_dict[1] = nfa_1.dict
+	union_dict[2] = nfa_2.dict
+	#print(union_dict)
+	return NFA(nfa_1.states + nfa_2.states, nfa_1.alph, union_dict, {0}, nfa_1.accepting_state + nfa_2.accepting_state)
 
-test = regex(r"hello world")
-x = re_print(test, "hello world")
-test = regex(r"hello world")
-x = re_print(test, "goodbye world")
+def concat(nfa_1, nfa_2):
+	print(nfa_1.dict)
+	nfa_1.dict[nfa_1.accepting_state][''] = nfa_2.dict
+	new_nfa = NFA(nfa_1.states, nfa_1.alph, nfa_1.dict, [nfa_1.start_state], [nfa_2.accepting_state])
+	return new_nfa
 
-test = regex(r"pick [234]")
-x = re_print(test, "pick 2")
-test = regex(r"pick [234]")
-x = re_print(test, "pick 3")
-test = regex(r"pick [234]")
-x = re_print(test, "pick 4")
-
-test = regex(r"\d")
-x = re_print(test, "0")
-test = regex(r"\d")
-x = re_print(test, "2")
-test = regex(r"\d")
-x = re_print(test, "7")
-test = regex(r"\d")
-x = re_print(test, "9")
-
-test = regex(r"ni+ce")
-x = re_print(test, "nice")
-test = regex(r"ni+ce")
-x = re_print(test, "niiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiice")
+def reg_concat(nfa_1, nfa_2):
+	for state in nfa_1.accepting_state:
+		nfa_1.dict[state][''] = 'b'+nfa_2.start_state
+	for state in nfa_2.dict:
+		new_state = 'b'+ state
+		keys = nfa_2.dict[state]
+		nfa_1.dict[new_state] = {}
+		for key in keys:
+			new_key = 'b'+ keys[key][0]
+			nfa_1.dict[new_state][key] = new_key	
+	count = 0
+	for state in nfa_2.accepting_state:
+		nfa_2.accepting_state[count] = 'b' + nfa_2.accepting_state[count]
+		count += 1
+	new_nfa = NFA(nfa_1.states, nfa_1.alph, nfa_1.dict, [nfa_1.start_state], [nfa_2.accepting_state])
+	return new_nfa
 
 
-test = regex(r"[^asdfghjkl;']")
-x = re_print(test, "'")
-test = regex(r"[^asdfghjkl;']")
-x = re_print(test, "t")
-test = regex(r"[^asdfghjkl;']")
-x = re_print(test, "7")
-test = regex(r"[^asdfghjkl;']")
-x = re_print(test, "f")
+class NFA:
+	def __init__(self, xStates, xAlph, xTranaition_func, xStart_state, xAccept_state):
+		self.states = xStates
+		self.alph = xAlph
+		self.dict = xTranaition_func
+		self.start_state = xStart_state
+		self.accepting_state = xAccept_state
+		return
+
+	def print_dict(self):
+		print(self.dict)
+		return
+
+  def kleene_star(nfa):
+	nfa.dict[0] = {'': [nfa.start_state]}
+	#print(nfa.accepting_state)
+	for states in nfa.accepting_state: 
+		nfa.dict[states][''] = [0]
+	return nfa
+
+
+language = "abcdefg"#hijklmnopqrstuvwxyz
+class regex:
+	def compile(self):#when inheriting form subclasses make sure they all can compile a regex
+		pass
+
+class regex_empty(regex):
+	def __init__(self):
+		pass
+
+	def compile(self):
+		dic = {'1': {}}		
+		return NFA(['1'], language, dic, '1', [])
+
+class regex_epsilon(regex):
+	def __init__(self):
+		pass
+
+	def compile(self):
+		nfa = {'1':{}}
+		for i in language:
+			nfa['1'][i] = ['2']#create a transition form the accepting state to the dead state
+		nfa['2'] = {}
+
+		return NFA(['1','2'], language, nfa, '1', ['1'])
+
+class regex_char(regex):
+	def __init__(self, char):
+		self.char = char
+
+	def compile(self):
+		nfa = {}
+		nfa['1'] = {self.char:'2'}
+		nfa['2'] = {}
+		for i in language:
+			if i != self.char:
+				nfa['2'][i] = ['3']#create a transition form the accepting state to the dead state
+		nfa['3'] = {}
+		return NFA(['1','2','3'], language, nfa, '1', ['2'])
+
+
+class regex_union(regex):
+	def __init__(self, reg_a, reg_b):
+		self.a = reg_a
+		self.b = reg_b
+
+	def compile(self):
+		return union(self.a.compile(), self.b.compile())
+
+
+class regex_star(regex):
+	def __init__(self, reg_a):
+		self.a = reg_a
+
+	def compile(self):
+		return kleene_star(self.a.compile())#runs the kleen star operation which creates an epsilon transition from the accepting states of the nfa to the starting state
+
+class regex_concat(regex):
+	def __init__(self, reg_a, reg_b):
+		self.a = reg_a
+		self.b = reg_b
+
+	def compile(self):
+		return reg_concat(self.a.compile(), self.b.compile())
+
+#task 44 example strings
+
+x = regex_char('d')
+accept = "d"
+reject = "anything else"
+
+empty = regex_empty()
+accept = None 
+reject = "d"
+
+eps = regex_epsilon()
+accept = ""
+reject = "epsilon"
+
+d = regex_char('d')
+a = regex_char('a')
+union = regex_union(d,a)
+accept = "da"
+reject = "abcde"
+
+a = regex_char('a')
+star = regex_star(a)
+kle = star.compile()
+accept = "a"
+accept = "aaaaaa"
+reject = "bbbbbb"
+
+b = regex_char('b')
+c = regex_char('c')
+circ = regex_concat(b,c)
+accept = "bc"
+reject = ""
